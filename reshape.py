@@ -11,10 +11,3 @@ print('array5:\n', array5.tolist())
 # 1차원 -> 2차원
 array6 = array1.reshape(-1, 1)
 print('array6:\n', array6.tolist())
-
-# 인덱싱
-array1d = np.arange(start=1, stop=10)
-array3 = array1d[array1d>5]
-indexs = array1d[array3d]
-array4 = array1d[indexs]
-print(array4)
