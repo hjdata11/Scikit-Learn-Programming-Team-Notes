@@ -39,3 +39,12 @@ titanic_df.head(3)
 # Dataframe 삭제
 drop_result = titanic_df.drop(['Age_by_10', 'Family_No'], axis = 1, inplace=True)
 titanic_df.head(3)
+
+# 결손 데이터 확인
+titanic_df.isna().sum()
+# 결손 데이터 대체
+titanic_df['Cabin'] = titanic_df['Cabin'].fillna('C000')
+
+# 데이터 가공
+titanic_df['Name_len'] = titanic_df['Name'].apply(lambda x : len(x))
+titanic_df['Child_Adult'] = titanic_df['Age'].apply(lambda x : 'Child' if x<=15 else ('Adult' if x<=60 else 'Elderly'))
