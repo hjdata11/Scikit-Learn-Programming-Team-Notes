@@ -19,3 +19,8 @@ grid_dtree.fit(X_train, y_train)
 
 scores_df = pd.DataFrame(grid_dtree.cv_results_)
 scores_df[['params', 'mean_test_score', 'rank_test_score', 'split0_test_score', 'split1_test_score', 'split2_test_score']]
+
+estimator = grid_dtree.best_estimator_
+
+pred = estimator.predict(X_test)
+print(accuracy_score(y_test, pred))
