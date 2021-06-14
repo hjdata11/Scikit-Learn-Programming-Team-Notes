@@ -15,3 +15,16 @@ row_indices = np.arange(4)
 col_indices = np.arange(4)
 eye_coo = sparse.coo_matrix((data, (row_indices, col_indices)))
 print("COO 표현:\n", eye_coo)
+
+# CSR의 연산 능력이 더 뛰어남
+from scipy import sparse
+import numpy as np
+
+dense2 = np.array([[0, 0, 1, 0, 0, 5],
+                  [1, 4, 0, 3, 2, 5],
+                  [0, 6, 0, 3, 0, 0],
+                  [2, 0, 0, 0, 0, 0],
+                  [0, 0, 0, 7, 0, 8],
+                  [1, 0, 0, 0, 0, 0]])
+
+csr = sparse.csr_matrix(dense2)
