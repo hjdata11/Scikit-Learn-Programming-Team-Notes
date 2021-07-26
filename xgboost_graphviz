@@ -59,3 +59,23 @@ rcParams['figure.figsize'] = 10, 10
 plot_importance(model)
 plt.yticks(fontsize=15)
 plt.show()
+
+# 특정 feature의 끼치는 수치 경향을 알아보는 pdpbox
+from pdpbox import info_plots
+
+pima_data = dataset
+pima_features = dataset.columns[:8]
+pima_target = dataset.columns[8]
+
+fig, axes, summary_df = info_plots.target_plot(
+    df=pima_data, feature='Glucose', feature_name='Glucose', target=pima_target
+)
+
+# 특정 feature의 끼치는 수치 경향을 알아보는 캔들스틱 차트
+fig, axes, summary_df = info_plots.actual_plot(
+    model=model, 
+    X=pima_data[pima_features], 
+    feature='Glucose', 
+    feature_name='Glucose', 
+    predict_kwds={}
+)
