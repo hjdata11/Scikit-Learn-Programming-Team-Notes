@@ -1,0 +1,61 @@
+# 당뇨병 XGBoost & graphviz
+%matplotlib inline
+import os
+# after pip install graphviz
+os.environ["PATH"] += os.pathsep + 'C:/Program Files (x86)/Graphviz2.38/bin/'
+
+# plot decision tree
+from numpy import loadtxt
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+from xgboost import XGBClassifier
+from xgboost import plot_tree
+import matplotlib.pyplot as plt
+
+from matplotlib.pylab import rcParams
+##set up the parameters
+rcParams['figure.figsize'] = 100,200
+
+# load data
+dataset = pd.read_csv('./data/diabetes.csv', delimiter=",")
+
+# split data into X and y
+X = dataset.iloc[:, 0:8]
+y = dataset.iloc[:, 8]
+
+x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.20, random_state=7)
+print(len(y_train), len(y_test))
+
+# fit model no training data
+model = XGBClassifier(
+    booster='gbtree',
+    objective='binary:logistic',
+    learning_rate=0.03,
+    n_estimators=150,
+    reg_alpha =0.15,
+    reg_lambda=0.7,
+    max_depth=4,
+    subsample=1
+)
+
+model.fit(x_train, y_train)
+# plot single tree
+plot_tree(model)
+plt.savefig("graph.png")
+plt.show()
+
+# make predictions for test data
+y_pred = model.predict(x_test)
+predictions = [round(value) for value in y_pred]
+
+# evaluate predictions
+accuracy = accuracy_score(y_test, predictions)
+print("Accuracy: %.2f%%" % (accuracy * 100.0))
+
+# 중요도 시각화
+from xgboost import plot_importance
+rcParams['figure.figsize'] = 10, 10
+plot_importance(model)
+plt.yticks(fontsize=15)
+plt.show()
